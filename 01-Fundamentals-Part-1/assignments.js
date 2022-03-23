@@ -55,5 +55,23 @@ console.log(population / 2); // 3.4
 console.log(population++); // 7.8
 console.log(population > 6); // true
 console.log(population > 33); // false
-console.log(country + " is in " + continent + " and its " + population + " million people speak " + language);
-// Bulgaria is in Europe and its 6.8 million people speak Bulgarian
+const description1 =
+  country +
+  " is in " +
+  continent +
+  ", and its " +
+  population +
+  " million people speak " +
+  language;
+console.log(description1);
+// Output: Bulgaria is in Europe and its 6.8 million people speak Bulgarian
+
+
+/* LECTURE: Strings and Template Literals
+1. Recreate the 'description' variable from the last assignment, this time
+using the template literal syntax */
+
+const description2 = `${country} is in ${continent}, and its
+ ${population} million people speak ${language}`;
+console.log(description2);
+// Output: Bulgaria is in Europe and its 6.8 million people speak Bulgarian
