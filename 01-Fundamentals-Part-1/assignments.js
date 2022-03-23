@@ -7,9 +7,9 @@ const country = "Bulgaria";
 const continent = "Europe";
 let population = 6.8;
 
-console.log("Country: " + population); // Country: Bulgaria
-console.log("Continent: " + continent); // Continent: Europe
-console.log("Population: " + population); // Population: 6.8
+console.log("Country: " + population); // → Country: Bulgaria
+console.log("Continent: " + continent); // → Continent: Europe
+console.log("Population: " + population); // → Population: 6.8
 
 
 /* LECTURE: Data Types
@@ -22,10 +22,10 @@ to the console */
 const isIsland = false;
 let language;
 
-console.log(typeof isIsland); // boolean
-console.log(typeof population); // number
-console.log(typeof country); // string
-console.log(typeof language); // undefined
+console.log(typeof isIsland); // → boolean
+console.log(typeof population); // → number
+console.log(typeof country); // → string
+console.log(typeof language); // → undefined
 
 
 /* LECTURE: let, const and var
@@ -36,7 +36,7 @@ change, and which might change?). Then, change these variables to const.
 3. Try to change one of the changed variables now, and observe what happens */
 
 language = "Bulgarian";
-// isIsland = true (Uncaught TypeError: Assignment to constant variable.)
+// isIsland = true // → Uncaught TypeError: Assignment to constant variable
 
 
 /* LECTURE: Basic Operators
@@ -51,10 +51,10 @@ have less people than the average country?
 which contains a string with this format: 'Portugal is in Europe, and its 11 million
 people speak portuguese' */
 
-console.log(population / 2); // 3.4
-console.log(population++); // 7.8
-console.log(population > 6); // true
-console.log(population > 33); // false
+console.log(population / 2); // → 3.4
+console.log(population++); // → 7.8
+console.log(population > 6); // → true
+console.log(population > 33); // → false
 const description1 =
   country +
   " is in " +
@@ -64,7 +64,7 @@ const description1 =
   " million people speak " +
   language;
 console.log(description1);
-// Output: Bulgaria is in Europe and its 6.8 million people speak Bulgarian
+// → Bulgaria is in Europe and its 6.8 million people speak Bulgarian
 
 
 /* LECTURE: Strings and Template Literals
@@ -74,4 +74,20 @@ using the template literal syntax */
 const description2 = `${country} is in ${continent}, and its
  ${population} million people speak ${language}`;
 console.log(description2);
-// Output: Bulgaria is in Europe and its 6.8 million people speak Bulgarian
+// → Bulgaria is in Europe and its 6.8 million people speak Bulgarian
+
+
+/* LECTURE: Taking Decisions: if / else Statements
+1. If your country's population is greater that 33 million, log a string like this to the
+console: 'Portugal's population is above average'. Otherwise, log a string like
+'Portugal's population is 22 million below average' (the 22 is the average of 33
+minus the country's population)
+2. After checking the result, change the population temporarily to 13 and then to
+130. See the different results, and set the population back to original */
+
+if (population > 33) {
+  console.log(`${country}'s population is above average`);
+} else {
+  console.log(`${country}'s population is ${33 - population} million below average`);
+  // → Bulgaria's population is 25,2 million below average
+}
