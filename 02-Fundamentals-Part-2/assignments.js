@@ -50,3 +50,12 @@ const percJapan1 = percentageOfWorld1(125.8);
 console.log(percJapan1); // → 1.5924050632911393
 const percChina2 = percentageOfWorld2(1449);
 console.log(percChina2); // → 18.341772151898734
+
+
+/* LECTURE: Arrow Functions
+1. Recreate the last assignment, but this time create an arrow function called
+'percentageOfWorld3' */
+
+const percentageOfWorld3 = (population) => (population / 7900) * 100;
+const percItaly3 = percentageOfWorld3(60);
+console.log(percItaly3); // → 0.7594936708860759
