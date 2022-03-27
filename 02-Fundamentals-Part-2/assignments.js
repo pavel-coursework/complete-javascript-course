@@ -82,3 +82,26 @@ console.log(describePopulation("Brazil", 215));
 // → Brazil has 215 million people, which is about 2.721518987341772% of the world.
 console.log(describePopulation("India", 1406));
 // → India has 1406 million people, which is about 17.79746835443038% of the world.
+
+
+/* LECTURE: Introduction to Arrays
+1. Create an array containing 4 population values of 4 countries of your choice.
+You may use the values you have been using previously. Store this array into a
+variable called 'populations'
+2. Log to the console whether the array has 4 elements or not (true or false)
+3. Create an array called 'percentages' containing the percentages of the
+world population for these 4 population values. Use the function
+'percentageOfWorld1' that you created earlier to compute the 4
+percentage values */
+
+const populations = [6.8, 1441, 125, 83];
+console.log(populations.length === 4); // → true
+
+const percentages = [
+  percentageOfWorld1(populations[0]),
+  percentageOfWorld1(populations[1]),
+  percentageOfWorld1(populations[2]),
+  percentageOfWorld1(populations[3]),
+];
+console.log(percentages);
+// → [0.08607594936708861, 18.240506329113924, 1.5822784810126582, 1.0506329113924051]
