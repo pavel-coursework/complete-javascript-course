@@ -259,3 +259,22 @@ for (let i = 0; i < listOfNeighbours.length; i++) {
 // → Neighbour: Norway
 // → Neighbour: Sweden
 // → Neighbour: Russia
+
+
+/* LECTURE: The while Loop
+1. Recreate the challenge from the lecture 'Looping Arrays, Breaking and Continuing',
+but this time using a while loop (call the array 'percentages3')
+2. Reflect on what solution you like better for this task: the for loop or the while
+loop? */
+
+const percentages3 = [];
+
+let i = 0;
+while (i < populations.length) {
+  const perc = percentageOfWorld1(populations[i]);
+  percentages3.push(perc);
+  i++;
+}
+
+console.log(percentages3);
+// → [0.08607594936708861, 18.240506329113924, 1.5822784810126582, 1.0506329113924051]
