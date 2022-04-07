@@ -49,13 +49,23 @@ btnRoll.addEventListener("click", () => {
 
   // 3. Check for rolled 1
   if (dice === 1) {
-
+    // Switch to the next player
+    switchPlayer();
   } else {
     currentScore += dice;
     document.getElementById(`current--${activePlayer}`).textContent =
       currentScore;
   }
 });
+
+// Switch player functionality
+function switchPlayer() {
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  currentScore = 0;
+  player0El.classList.toggle("player--active");
+  player1El.classList.toggle("player--active");
+}
 
 // Start new game functionality
 btnNew.addEventListener("click", initial);
