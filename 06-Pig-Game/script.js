@@ -38,5 +38,24 @@ function initial() {
 
 initial();
 
+// Rolling dice functionality
+btnRoll.addEventListener("click", () => {
+  // 1. Generate a random dice roll
+  let dice = Math.ceil(Math.random() * 6);
+
+  // 2. Display dice
+  diceEl.classList.remove("hidden");
+  diceEl.src = `./images/dice-${dice}.png`;
+
+  // 3. Check for rolled 1
+  if (dice === 1) {
+
+  } else {
+    currentScore += dice;
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
+  }
+});
+
 // Start new game functionality
 btnNew.addEventListener("click", initial);
