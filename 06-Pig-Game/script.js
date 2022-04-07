@@ -67,5 +67,32 @@ function switchPlayer() {
   player1El.classList.toggle("player--active");
 }
 
+// Hold functionality
+btnHold.addEventListener("click", () => {
+  // 1. Add current score to active player's score
+  scores[activePlayer] += currentScore;
+  document.getElementById(`score--${activePlayer}`).textContent =
+    scores[activePlayer];
+
+  // 2. Check if player's score is >= 100
+  if (scores[activePlayer] >= 100) {
+    // Finish the game
+    diceEl.classList.add("hidden");
+
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add("player--winner");
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.remove("player--active");
+
+    btnRoll.disabled = true;
+    btnHold.disabled = true;
+  } else {
+    // Switch to the next player
+    switchPlayer();
+  }
+});
+
 // Start new game functionality
 btnNew.addEventListener("click", initial);
