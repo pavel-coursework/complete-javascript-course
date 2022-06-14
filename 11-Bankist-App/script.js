@@ -112,3 +112,14 @@ function updateUI(acc) {
   // Display summary
   calcDisplaySummary(acc);
 }
+
+const createUsernames = function (accs) {
+  accs.forEach((acc) => {
+    acc.username = acc.owner
+      .split(" ")
+      .map((name) => name.charAt(0))
+      .join("")
+      .toLowerCase();
+  });
+};
+createUsernames(accounts);
