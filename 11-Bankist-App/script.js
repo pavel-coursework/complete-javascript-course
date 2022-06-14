@@ -101,3 +101,14 @@ function calcDisplaySummary(acc) {
   labelSumOut.textContent = `${Math.abs(sumOut)}€`;
   labelSumInterest.textContent = `${sumInterest}€`;
 }
+
+function updateUI(acc) {
+  // Display movements
+  displayMovements(acc);
+
+  // Display balance
+  calcDisplayBalance(acc);
+
+  // Display summary
+  calcDisplaySummary(acc);
+}
