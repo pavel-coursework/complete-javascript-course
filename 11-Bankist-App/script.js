@@ -80,3 +80,8 @@ function displayMovements(acc, sort = false) {
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
 }
+
+function calcDisplayBalance(acc) {
+  acc.balance = acc.movements.reduce((accu, curr) => accu + curr, 0);
+  labelBalance.textContent = `${acc.balance}€`;
+}
