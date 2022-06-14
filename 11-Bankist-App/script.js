@@ -85,3 +85,19 @@ function calcDisplayBalance(acc) {
   acc.balance = acc.movements.reduce((accu, curr) => accu + curr, 0);
   labelBalance.textContent = `${acc.balance}€`;
 }
+
+function calcDisplaySummary(acc) {
+  const sumIn = acc.movements
+    .filter((mov) => mov > 0)
+    .reduce((accu, curr) => accu + curr, 0);
+
+  const sumOut = acc.movements
+    .filter((mov) => mov < 0)
+    .reduce((accu, curr) => accu + curr, 0);
+
+  const sumInterest = Number(((sumIn / 100) * acc.interestRate).toFixed(2));
+
+  labelSumIn.textContent = `${sumIn}€`;
+  labelSumOut.textContent = `${Math.abs(sumOut)}€`;
+  labelSumInterest.textContent = `${sumInterest}€`;
+}
