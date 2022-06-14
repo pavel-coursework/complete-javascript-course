@@ -123,3 +123,29 @@ const createUsernames = function (accs) {
   });
 };
 createUsernames(accounts);
+
+let currentAccount;
+btnLogin.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  // Find and save an account
+  currentAccount = accounts.find(
+    (acc) => acc.username === inputLoginUsername.value
+  );
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(" ")[0]
+    }`;
+
+    containerApp.style.opacity = 1;
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+
+  // Clear input fields
+  inputLoginUsername.value = inputLoginPin.value = "";
+  inputLoginPin.blur();
+});
