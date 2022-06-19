@@ -73,7 +73,7 @@ function displayMovements(acc, sort = false) {
       i + 1
     } ${type}</div>
         <div class="movements__date">3 days ago</div>
-        <div class="movements__value">${mov}€</div>
+        <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
 
@@ -83,7 +83,7 @@ function displayMovements(acc, sort = false) {
 
 function calcDisplayBalance(acc) {
   acc.balance = acc.movements.reduce((accu, curr) => accu + curr, 0);
-  labelBalance.textContent = `${acc.balance}€`;
+  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
 }
 
 function calcDisplaySummary(acc) {
@@ -95,11 +95,11 @@ function calcDisplaySummary(acc) {
     .filter((mov) => mov < 0)
     .reduce((accu, curr) => accu + curr, 0);
 
-  const sumInterest = Number(((sumIn / 100) * acc.interestRate).toFixed(2));
+  const sumInterest = (sumIn / 100) * acc.interestRate;
 
-  labelSumIn.textContent = `${sumIn}€`;
-  labelSumOut.textContent = `${Math.abs(sumOut)}€`;
-  labelSumInterest.textContent = `${sumInterest}€`;
+  labelSumIn.textContent = `${sumIn.toFixed(2)}€`;
+  labelSumOut.textContent = `${Math.abs(sumOut).toFixed(2)}€`;
+  labelSumInterest.textContent = `${sumInterest.toFixed(2)}€`;
 }
 
 function updateUI(acc) {
