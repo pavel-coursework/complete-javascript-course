@@ -69,6 +69,19 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+function formatMovementDate(date, locale) {
+  const calcDaysPassed = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+
+  const daysPassed = calcDaysPassed(new Date(), date);
+
+  if (daysPassed === 0) return "Today";
+  if (daysPassed === 1) return "Yesterday";
+  if (daysPassed <= 7) return `${daysPassed} days ago`;
+
+  return new Intl.DateTimeFormat(locale).format(date);
+}
+
 function displayMovements(acc, sort = false) {
   containerMovements.innerHTML = "";
 
@@ -79,12 +92,15 @@ function displayMovements(acc, sort = false) {
   movements.forEach((mov, i) => {
     const type = mov > 0 ? "deposit" : "withdrawal";
 
+    const date = new Date(acc.movementsDates[i]);
+    const displayDate = formatMovementDate(date, acc.locale);
+
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__date">3 days ago</div>
+        <div class="movements__date">${displayDate}</div>
         <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
@@ -194,6 +210,11 @@ btnTransfer.addEventListener("click", (e) => {
     currentAccount.movements.push(-transferAmount);
     receiverAcc.movements.push(transferAmount);
 
+    // Add transfer date
+    const nowISO = new Date().toISOString();
+    currentAccount.movementsDates.push(nowISO);
+    receiverAcc.movementsDates.push(nowISO);
+
     // Update UI
     updateUI(currentAccount);
   }
@@ -214,6 +235,9 @@ btnLoan.addEventListener("click", (e) => {
   ) {
     // Add movement
     currentAccount.movements.push(amount);
+
+    // Add loan date
+    currentAccount.movementsDates.push(new Date().toISOString());
 
     // Update UI
     updateUI(currentAccount);
