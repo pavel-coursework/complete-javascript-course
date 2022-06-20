@@ -173,7 +173,40 @@ const createUsernames = function (accs) {
 };
 createUsernames(accounts);
 
-let currentAccount;
+function startLogOutTimer() {
+  function tick() {
+    // Calculate minutes and seconds
+    const min = Math.trunc(time / 60)
+      .toString()
+      .padStart(2, 0);
+    const sec = Math.trunc(time % 60)
+      .toString()
+      .padStart(2, 0);
+
+    // Print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // When 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = "Log in to get started";
+      containerApp.style.opacity = 0;
+    }
+
+    // Decrease 1s
+    time--;
+  }
+  
+  // Timer duration
+  let time = 600;
+  
+  // Call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+}
+
+let currentAccount, timer;
 btnLogin.addEventListener("click", (e) => {
   e.preventDefault();
 
@@ -203,6 +236,10 @@ btnLogin.addEventListener("click", (e) => {
     ).format(now);
 
     containerApp.style.opacity = 1;
+
+    // Timer
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
 
     // Update UI
     updateUI(currentAccount);
@@ -243,6 +280,10 @@ btnTransfer.addEventListener("click", (e) => {
   // Clear input fields
   inputTransferTo.value = inputTransferAmount.value = "";
   inputTransferAmount.blur();
+
+  // Reset timer
+  if (timer) clearInterval(timer);
+  timer = startLogOutTimer();
 });
 
 btnLoan.addEventListener("click", (e) => {
@@ -266,6 +307,10 @@ btnLoan.addEventListener("click", (e) => {
     }, 3000);
   }
   inputLoanAmount.value = "";
+  
+  // Reset timer
+  if (timer) clearInterval(timer);
+  timer = startLogOutTimer();
 });
 
 btnClose.addEventListener("click", (e) => {
