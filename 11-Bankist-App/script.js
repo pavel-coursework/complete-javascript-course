@@ -3,40 +3,36 @@
 // Data
 const account1 = {
   owner: "Jonas Schmedtmann",
-  movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
+  movements: [
+    { amount: 200, date: "2019-11-18T21:31:17.178Z" },
+    { amount: 455.23, date: "2019-12-23T07:42:02.383Z" },
+    { amount: -306.5, date: "2020-01-28T09:15:04.904Z" },
+    { amount: 25000, date: "2020-04-01T10:17:24.185Z" },
+    { amount: -642.21, date: "2020-05-08T14:11:59.604Z" },
+    { amount: -133.9, date: "2020-07-26T17:01:17.194Z" },
+    { amount: 79.97, date: "2020-07-28T23:36:17.929Z" },
+    { amount: 1300, date: "2020-08-01T10:51:36.790Z" },
+  ],
   interestRate: 1.2, // %
   pin: 1111,
-
-  movementsDates: [
-    "2019-11-18T21:31:17.178Z",
-    "2019-12-23T07:42:02.383Z",
-    "2020-01-28T09:15:04.904Z",
-    "2020-04-01T10:17:24.185Z",
-    "2020-05-08T14:11:59.604Z",
-    "2020-07-26T17:01:17.194Z",
-    "2020-07-28T23:36:17.929Z",
-    "2020-08-01T10:51:36.790Z",
-  ],
   currency: "EUR",
   locale: "pt-PT", // de-DE
 };
 
 const account2 = {
   owner: "Jessica Davis",
-  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+  movements: [
+    { amount: 5000, date: "2019-11-01T13:15:33.035Z" },
+    { amount: 3400, date: "2019-11-30T09:48:16.867Z" },
+    { amount: -150, date: "2019-12-25T06:04:23.907Z" },
+    { amount: -790, date: "2020-01-25T14:18:46.235Z" },
+    { amount: -3210, date: "2020-02-05T16:33:06.386Z" },
+    { amount: -1000, date: "2020-04-10T14:43:26.374Z" },
+    { amount: 8500, date: "2020-06-25T18:49:59.371Z" },
+    { amount: -30, date: "2020-07-26T12:01:20.894Z" },
+  ],
   interestRate: 1.5,
   pin: 2222,
-
-  movementsDates: [
-    "2019-11-01T13:15:33.035Z",
-    "2019-11-30T09:48:16.867Z",
-    "2019-12-25T06:04:23.907Z",
-    "2020-01-25T14:18:46.235Z",
-    "2020-02-05T16:33:06.386Z",
-    "2020-04-10T14:43:26.374Z",
-    "2020-06-25T18:49:59.371Z",
-    "2020-07-26T12:01:20.894Z",
-  ],
   currency: "USD",
   locale: "en-US",
 };
@@ -93,16 +89,16 @@ function displayMovements(acc, sort = false) {
   containerMovements.innerHTML = "";
 
   const movements = sort
-    ? acc.movements.slice().sort((a, b) => a - b)
+    ? acc.movements.slice().sort((a, b) => a.amount - b.amount)
     : acc.movements;
 
   movements.forEach((mov, i) => {
-    const type = mov > 0 ? "deposit" : "withdrawal";
+    const type = mov.amount > 0 ? "deposit" : "withdrawal";
 
-    const date = new Date(acc.movementsDates[i]);
+    const date = new Date(mov.date);
     const displayDate = formatMovementDate(date, acc.locale);
 
-    const formattedMov = formatCurrency(mov, acc.locale, acc.currency);
+    const formattedMov = formatCurrency(mov.amount, acc.locale, acc.currency);
 
     const html = `
       <div class="movements__row">
@@ -119,7 +115,7 @@ function displayMovements(acc, sort = false) {
 }
 
 function calcDisplayBalance(acc) {
-  acc.balance = acc.movements.reduce((accu, curr) => accu + curr, 0);
+  acc.balance = acc.movements.reduce((accu, curr) => accu + curr.amount, 0);
   labelBalance.textContent = formatCurrency(
     acc.balance,
     acc.locale,
@@ -129,12 +125,12 @@ function calcDisplayBalance(acc) {
 
 function calcDisplaySummary(acc) {
   const sumIn = acc.movements
-    .filter((mov) => mov > 0)
-    .reduce((accu, curr) => accu + curr, 0);
+    .filter((mov) => mov.amount > 0)
+    .reduce((accu, curr) => accu + curr.amount, 0);
 
   const sumOut = acc.movements
-    .filter((mov) => mov < 0)
-    .reduce((accu, curr) => accu + curr, 0);
+    .filter((mov) => mov.amount < 0)
+    .reduce((accu, curr) => accu + curr.amount, 0);
 
   const sumInterest = (sumIn / 100) * acc.interestRate;
 
@@ -265,13 +261,15 @@ btnTransfer.addEventListener("click", (e) => {
     receiverAcc?.username !== currentAccount.username
   ) {
     // Doing the transfer
-    currentAccount.movements.push(-transferAmount);
-    receiverAcc.movements.push(transferAmount);
+    currentAccount.movements.push({
+      amount: -transferAmount,
+      date: new Date().toISOString()
+    });
 
-    // Add transfer date
-    const nowISO = new Date().toISOString();
-    currentAccount.movementsDates.push(nowISO);
-    receiverAcc.movementsDates.push(nowISO);
+    receiverAcc.movements.push({
+      amount: transferAmount,
+      date: new Date().toISOString(),
+    });
 
     // Update UI
     updateUI(currentAccount);
@@ -293,21 +291,21 @@ btnLoan.addEventListener("click", (e) => {
 
   if (
     amount > 0 &&
-    currentAccount.movements.some((mov) => mov >= amount * 0.1)
+    currentAccount.movements.some((mov) => mov.amount >= amount * 0.1)
   ) {
     setTimeout(() => {
       // Add movement
-      currentAccount.movements.push(amount);
-
-      // Add loan date
-      currentAccount.movementsDates.push(new Date().toISOString());
+      currentAccount.movements.push({
+        amount,
+        date: new Date().toISOString(),
+      });
 
       // Update UI
       updateUI(currentAccount);
     }, 3000);
   }
   inputLoanAmount.value = "";
-  
+
   // Reset timer
   if (timer) clearInterval(timer);
   timer = startLogOutTimer();
