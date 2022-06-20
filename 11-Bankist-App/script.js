@@ -82,6 +82,13 @@ function formatMovementDate(date, locale) {
   return new Intl.DateTimeFormat(locale).format(date);
 }
 
+function formatCurrency(value, locale, currency) {
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+  }).format(value);
+}
+
 function displayMovements(acc, sort = false) {
   containerMovements.innerHTML = "";
 
@@ -95,13 +102,15 @@ function displayMovements(acc, sort = false) {
     const date = new Date(acc.movementsDates[i]);
     const displayDate = formatMovementDate(date, acc.locale);
 
+    const formattedMov = formatCurrency(mov, acc.locale, acc.currency);
+
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
         <div class="movements__date">${displayDate}</div>
-        <div class="movements__value">${mov.toFixed(2)}€</div>
+        <div class="movements__value">${formattedMov}</div>
       </div>
     `;
 
@@ -111,7 +120,11 @@ function displayMovements(acc, sort = false) {
 
 function calcDisplayBalance(acc) {
   acc.balance = acc.movements.reduce((accu, curr) => accu + curr, 0);
-  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
+  labelBalance.textContent = formatCurrency(
+    acc.balance,
+    acc.locale,
+    acc.currency
+  );
 }
 
 function calcDisplaySummary(acc) {
@@ -125,9 +138,17 @@ function calcDisplaySummary(acc) {
 
   const sumInterest = (sumIn / 100) * acc.interestRate;
 
-  labelSumIn.textContent = `${sumIn.toFixed(2)}€`;
-  labelSumOut.textContent = `${Math.abs(sumOut).toFixed(2)}€`;
-  labelSumInterest.textContent = `${sumInterest.toFixed(2)}€`;
+  labelSumIn.textContent = formatCurrency(sumIn, acc.locale, acc.currency);
+  labelSumOut.textContent = formatCurrency(
+    Math.abs(sumOut),
+    acc.locale,
+    acc.currency
+  );
+  labelSumInterest.textContent = formatCurrency(
+    sumInterest,
+    acc.locale,
+    acc.currency
+  );
 }
 
 function updateUI(acc) {
