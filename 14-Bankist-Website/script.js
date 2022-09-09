@@ -43,3 +43,43 @@ btnScrollTo.addEventListener("click", function (e) {
   e.preventDefault();
   section1?.scrollIntoView({ behavior: "smooth" });
 });
+
+///////////////////////////////////////
+// Page navigation
+
+// Old implementation
+/* document.querySelector('.nav__links').addEventListener("click", function (e) {
+  e.preventDefault();
+  const href = e.target.getAttribute("href");
+
+  ===
+  console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset);
+
+  console.log(
+    'height/width viewport',
+    document.documentElement.clientHeight,
+    document.documentElement.clientWidth
+  );
+  ===
+
+  if (href?.length > 1) {
+    const section = document.querySelector(href);
+    const coords = section?.getBoundingClientRect();
+
+    scrollTo({
+      top: coords.top + window.pageYOffset,
+      behavior: "smooth",
+    });
+  }
+}); */
+
+// New implementation
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  e.preventDefault();
+  const href = e.target.getAttribute("href");
+
+  if (href?.length > 1 && e.target.classList.contains("nav__link")) {
+    const section = document.querySelector(href);
+    section?.scrollIntoView({ behavior: "smooth" });
+  }
+});
