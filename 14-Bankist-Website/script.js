@@ -35,3 +35,11 @@ document.addEventListener("keydown", function (e) {
     closeModal();
   }
 });
+
+///////////////////////////////////////
+// Button smooth scrolling
+
+btnScrollTo.addEventListener("click", function (e) {
+  e.preventDefault();
+  section1?.scrollIntoView({ behavior: "smooth" });
+});
