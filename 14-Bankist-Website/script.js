@@ -123,3 +123,33 @@ const handleHover = function (e) {
 
 nav.addEventListener("mouseover", handleHover.bind(0.5));
 nav.addEventListener("mouseout", handleHover.bind(1));
+
+///////////////////////////////////////
+// Sticky navigation: Intersection Observer API
+
+/* window.addEventListener("scroll", function (e) {
+  const coords = section1.getBoundingClientRect();
+
+  if (coords.top <= 0) {
+    nav.classList.add("sticky");
+  } else {
+    nav.classList.remove("sticky");
+  }
+}) */
+
+const header = document.querySelector(".header");
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+
+  entry.isIntersecting
+    ? nav.classList.remove("sticky")
+    : nav.classList.add("sticky");
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  rootMargin: `-${navHeight}px`,
+});
+
+headerObserver.observe(header);
