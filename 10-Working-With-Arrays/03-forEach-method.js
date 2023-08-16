@@ -25,3 +25,4 @@ movements.forEach(function (mov, i, arr) {
      Movement 2: You deposited 450
      Movement 3: You withdrew 400
      ... */
+// You cannot add continue or break statements in forEach Method
